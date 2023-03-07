@@ -19,16 +19,17 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-resteasy-jackson")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-scheduler")
-    implementation("io.github.fierg:gRPC-demo:1.0")
+    implementation("io.quarkus:quarkus-container-image-docker")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
 
 group = "io.github.fierg"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -47,4 +48,12 @@ allOpen {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     kotlinOptions.javaParameters = true
+}
+
+tasks.quarkusBuild {
+    nativeArgs {
+        "container-build" to true
+        "container-image.build" to true
+        "builder-image" to "quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17"
+    }
 }

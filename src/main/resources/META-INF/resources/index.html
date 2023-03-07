@@ -250,13 +250,13 @@
 <body>
 <script>
     setInterval(function () {
-        fetch("http://localhost:8080/mqtt")
+        fetch("http://localhost:8080/mqtt/puzzle")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
-                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div1").innerHTML = "Game ID: " + data.gameID
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div1").innerHTML = "Game ID: " + data.raetsel_id
 
-                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div2").innerHTML = "Server ID: " + data.serverID
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div2").innerHTML = "Server ID: " + data.server_id
 
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div3").innerHTML = data.row1[0]
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div4").innerHTML = data.row1[1]
@@ -269,6 +269,8 @@
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div11").innerHTML = data.row3[2]
             }).catch(() => console.log("Waiting for puzzle..."));
     }, 2000);
+
+
 </script>
 <div class="header-wrapper">
     <div class="grid">
