@@ -138,6 +138,7 @@
         .left-column {
             grid-column: span 8;
             padding-right: 3rem;
+
         }
 
         .left-column p {
@@ -253,8 +254,20 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
-                document.querySelector("body > div.content-wrapper > div > div.left-column").innerHTML=data.gameID
-            });
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div1").innerHTML = "Game ID: " + data.gameID
+
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div2").innerHTML = "Server ID: " + data.serverID
+
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div3").innerHTML = data.row1[0]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div4").innerHTML = data.row1[1]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div5").innerHTML = data.row1[2]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div6").innerHTML = data.row2[0]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div7").innerHTML = data.row2[1]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div8").innerHTML = data.row2[2]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div9").innerHTML = data.row3[0]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div10").innerHTML = data.row3[1]
+                document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div11").innerHTML = data.row3[2]
+            }).catch(() => console.log("Waiting for puzzle..."));
     }, 2000);
 </script>
 <div class="header-wrapper">
@@ -324,8 +337,29 @@
 </div>
 <div class="content-wrapper">
     <div class="grid">
-        <div class="left-column">
+        <div class="left-column" style="margin-top: 1rem">
+            <h3>Current Game:</h3>
+            <div class="game-grid"
+                 style="display: grid; grid-template-columns: 1fr 3em 1fr 3em 1fr; grid-template-rows:  repeat(4, 1fr); grid-column-gap: 1px; grid-row-gap: 1px;">
+                <div class="div1" style="grid-area: 1 / 1 / 2 / 2;"></div>
+                <div class="div2" style="grid-area: 1 / 5 / 2 / 6; text-align: right;"></div>
+                <div class="div3" style="grid-area: 2 / 1 / 3 / 2; text-align: right; font-family: monospace;"></div>
+                <div class="div4" style="grid-area: 2 / 3 / 3 / 4; text-align: right; font-family: monospace;"></div>
+                <div class="div5" style="grid-area: 2 / 5 / 3 / 6; text-align: right; font-family: monospace;"></div>
+                <div class="div6" style="grid-area: 3 / 1 / 4 / 2; text-align: right; font-family: monospace;"></div>
+                <div class="div7" style="grid-area: 3 / 3 / 4 / 4; text-align: right; font-family: monospace;"></div>
+                <div class="div8" style="grid-area: 3 / 5 / 4 / 6; text-align: right; font-family: monospace;"></div>
+                <div class="div9" style="grid-area: 4 / 1 / 5 / 2; text-align: right; font-family: monospace;"></div>
+                <div class="div10" style="grid-area: 4 / 3 / 5 / 4; text-align: right; font-family: monospace;"></div>
+                <div class="div11" style="grid-area: 4 / 5 / 5 / 6; text-align: right; font-family: monospace;"></div>
 
+                <div class="div12" style="grid-area: 2 / 2 / 3 / 3;text-align: center; font-family: monospace;">+</div>
+                <div class="div13" style="grid-area: 2 / 4 / 3 / 5;text-align: center; font-family: monospace;">=</div>
+                <div class="div14" style="grid-area: 3 / 2 / 4 / 3;text-align: center; font-family: monospace;">+</div>
+                <div class="div15" style="grid-area: 3 / 4 / 4 / 5;text-align: center; font-family: monospace;">=</div>
+                <div class="div16" style="grid-area: 4 / 2 / 5 / 3;text-align: center; font-family: monospace;">+</div>
+                <div class="div17" style="grid-area: 4 / 4 / 5 / 5;text-align: center; font-family: monospace;">=</div>
+            </div>
         </div>
         <div class="right-column">
             <h3>Selected extensions</h3>
