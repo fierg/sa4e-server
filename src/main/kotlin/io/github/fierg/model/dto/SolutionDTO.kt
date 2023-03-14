@@ -8,5 +8,5 @@ data class SolutionDTO(
     @JsonProperty("row1") val row1: Array<String>? = arrayOf(),
     @JsonProperty("row2") val row2: Array<String>? = arrayOf(),
     @JsonProperty("row3") val row3: Array<String>? = arrayOf(),
-    @JsonProperty("server_id") val time: String? = ""
+    @JsonProperty("time") val time: String? = ""
 )

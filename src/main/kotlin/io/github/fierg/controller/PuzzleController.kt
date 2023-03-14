@@ -12,6 +12,9 @@ class PuzzleController {
 
     fun setPuzzle(puzzle:PuzzleDTO){
         currentPuzzle = puzzle
+
+        //DEBUG
+        addSolution(SolutionDTO(puzzle.server_id, puzzle.raetsel_id, puzzle.row1, puzzle.row2, puzzle.row3, "42"))
     }
 
     fun getPuzzle() = currentPuzzle

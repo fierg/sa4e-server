@@ -248,12 +248,69 @@
     </style>
 </head>
 <body>
-<script>
+<script type="module">
+    import autoAnimate from 'https://cdn.jsdelivr.net/npm/@formkit/auto-animate@1.0.0-beta.1/index.min.js';
+
+    let list = [];
+    const domList = document.querySelector('#solution-list');
+
+    function addItem(item) {
+        list.push(item);
+        render();
+    }
+
+    function removeItem(item) {
+        list = list.filter(it => it !== item);
+        render();
+    }
+
+    function updateList(newList) {
+        if (JSON.stringify(list) !== JSON.stringify(newList)) {
+            let added = newList.filter(x => !list.map(y => JSON.stringify(y)).includes(JSON.stringify(x)))
+            let removed = list.filter(x => !newList.map(y => JSON.stringify(y)).includes(JSON.stringify(x)))
+            if (removed.length > 0) {
+                removed.forEach(x => {
+                    console.log("REMOVING: " + JSON.stringify(x))
+                    removeItem(x)
+                })
+            }
+            if (added.length > 0) {
+                added.forEach(x => {
+                    addItem(x)
+                })
+            }
+        }
+    }
+
+    function render() {
+        let prevItem;
+        list.reverse().forEach((solution, index) => {
+            solution = JSON.stringify(solution)
+            let li = document.getElementById(solution);
+            if (!li) {
+                li = document.createElement('li');
+                li.innerText = solution;
+                li.setAttribute('id', solution);
+                domList.appendChild(li);
+            } else {
+                if (prevItem) {
+                    prevItem.after(li);
+                } else {
+                    domList.prepend(li);
+                }
+            }
+            prevItem = li;
+        });
+    }
+
+    render();
+    autoAnimate(domList);
+
     setInterval(function () {
         fetch("http://localhost:8080/mqtt/puzzle")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+                document.querySelector("body > div:nth-child(4) > div > div.left-column > h3").innerHTML = "Current Game:"
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div1").innerHTML = "Game ID: " + data.raetsel_id
 
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div2").innerHTML = "Server ID: " + data.server_id
@@ -267,8 +324,17 @@
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div9").innerHTML = data.row3[0]
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div10").innerHTML = data.row3[1]
                 document.querySelector("body > div.content-wrapper > div > div.left-column > div > div.div11").innerHTML = data.row3[2]
-            }).catch(() => console.log("Waiting for puzzle..."));
-    }, 2000);
+            }).catch(() => document.querySelector("body > div:nth-child(4) > div > div.left-column > h3").innerHTML = "Waiting for new games from MQTT Server ...");
+    }, 3000);
+
+    setInterval(function () {
+        fetch("http://localhost:8080/mqtt/solutions")
+            .then((response) => response.json())
+            .then((data) => {
+                document.querySelector("body > div:nth-child(5) > div > h3").innerHTML = "Solutions:"
+                updateList(data)
+            }).catch(() => document.querySelector("body > div:nth-child(5) > div > h3").innerHTML = "Waiting for new solutions ...");
+    }, 3000);
 
 
 </script>
@@ -376,6 +442,13 @@
                 <li title="Jackson serialization support for RESTEasy Classic">RESTEasy Classic Jackson</li>
             </ul>
         </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="left-column" style="margin-top: 1rem">
+        <h3>Solutions:</h3>
+        <ul id="solution-list"></ul>
     </div>
 </div>
 </body>
